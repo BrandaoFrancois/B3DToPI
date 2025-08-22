@@ -1,0 +1,149 @@
+<statements> ::= ( <space>* <statement> <space>* )*
+<statement> ::= <includeStatement> | <insertStatement> | <deleteStatement> | <conditionStatement> | <loopStatement> | <declaration> | <structStatement> | <systemFunctionCall> | <functionCall>
+<expression> ::= <calcul> | <expressionWithoutCalcul>
+<expressionWithoutCalcul> ::= <singleOperation> | <value> | <systemFunctionCall> | <functionCall>
+<calcul> ::= <expressionWithoutCalcul> <space>* <dualOperator> <space>* <expression>
+
+<functionCall> ::= <identifier> <space>* "(" (<expression> ( <space>* "," <space>* <expression>)*)? <space>* ")"
+<systemFunctionCall> ::= <identifier> <space>+ ( <expression> ( <space>* "," <space>* <expression> )* )?
+
+<includeStatement> ::= <include> (<space>* <string>)+
+<include> ::= "Include"
+
+<loopStatement> ::= <whileStatement> | <forStatement> | <forEachStatement> | <repeatUntilStatement> | <repeatForeverStatement>
+
+<whileStatement> ::= <while> <space>+ <expression> <space>* <statements> <wend>
+<while> ::= "While"
+<wend> ::= "Wend"
+
+<forStatement> ::= <for> <space>+ <identifier> <space>* <equal> <expression> <space>* <to> <space>+ <expression> <space>+ <step> <space>+ <statements> <next>
+<forEachStatement> ::= <for> <space>+ <identifier> <space>* <equal> <each> <space>* <identifier> <space>* <statements> <next>
+<for> ::= "For"
+<next> ::= "Next"
+<to> ::= "To"
+<step> ::= "Step"
+<each> ::= "Each"
+
+<repeatUntilStatement> ::= <repeat> <space>+ <statements> <until> <space>+ <expression>
+<repeatForeverStatement> ::= <repeat> <space>+ <statements> <space>* <forever>
+<repeat> ::= "Repeat"
+<until> ::= "Until"
+<forever> ::= "Forever"
+
+<conditionStatement> ::= <ifStatement> | <selectStatement>
+
+<selectStatement> ::= <select> <space>+ <expression> <space>* (<case> <space>+ <expression> <space>* <statements>)* ( <default> <statements> <space>* ) <endSelect>
+<select> ::= "Select"
+<case> ::= "Case"
+<default> ::= "Default"
+<endSelect> ::= <end> " " <select>
+
+
+<ifStatement> ::= <if> <space>* <expression> ( <space>* <then> )? <space>+ <statement>* (<elseif> <space>+ <expression> <then>? <space>+ <statements> )* (<else> <space>+ <statements> )? <endif>
+<if> ::= "If"
+<then> ::= "Then"
+<else> ::= "Else"
+<elseif> ::= <else> " "? <if>
+<endif> ::= <end> " "? <if>
+
+<declaration> ::= <functionDeclaration> | <arrayDeclaration> | <varDeclaration>
+<varDeclaration> ::= <varScope>? <space>+ <varName> (<space>* <equal> <space>* <expression>)? (<space>* "," <space>* <varName> (<space>* <equal> <space>* <expression>)? )*
+<functionDeclaration> ::= <function> <space>+ <identifier> <space>* <type>? <space>* "(" <space>* <params> <space>* ")" <space>* (<statement> <space>*)* <endFunction>
+<arrayDeclaration> ::= <array> <space>+ <identifier> <space>* <type>? <space>* "(" <space>* <number> (<space>* "," <space>* <number> )* <space>* ")"
+
+<params> ::= (<param> <space>* ",")* <param>
+<param> ::= <identifier>
+<function> ::= "Function"
+<endFunction> ::= <end> " "? <function>
+
+<structStatement> ::= <struct> <space>+ <identifier> <space>+ <field> <space>+ <varsDefinition> <endStruct>
+<struct> ::= "Type"
+<field> ::= "Field"
+<endStruct> ::= <end> " " <struct>
+
+<varsDefinition> ::= <varDefinition> (<space>* "," <varDefinition>)*
+<varDefinition> ::= <varName> (<space>* <equal> <space>* <expression>)?
+<varName> ::= <identifier> <type>?
+
+<identifier> ::= ([a-z] | [A-Z]) ([a-z] | [A-Z] | [0-9] | "_" )*
+
+<varScope> ::= <const> | <local> | <global>
+<local> ::= "Local"
+<global> ::= "Global"
+<const> ::= "Const"
+<array> ::= "Dim"
+
+<type> ::= <integerType> | <floatType> | <stringType> | <customType>
+<integerType> ::= "%"
+<floatType> ::= "#"
+<stringType> ::= "$"
+<customType> ::= "." <identifier>
+
+<value> ::= <string> | <float> | <number> | <boolean>
+<string> ::= "\""  "\""
+<number> ::= [0-9]+
+<float> ::= [0-9]+ "." [0-9]+
+<boolean> ::= <true> | <false>
+<true> ::= "True"
+<false> ::= "False"
+
+<equal> ::= "="
+
+<dualOperator> ::= <arithmeticOperators> | <booleanOperators> | <comparatorOperators> | <bitwiseOperators>
+<singleOperation> ::= <positionCallOperation> | ( <singleOperator> <expression> )
+<singleOperator> ::= <castOperator> | <inversionOperator>
+
+<arithmeticOperators> ::= <plus> | <minus> | <divide> | <multiply> | <modulo> | <powerOf>
+<plus> ::= "+"
+<minus> ::= "-"
+<divide> ::= "/"
+<multiply> ::= "*"
+<modulo> ::= "Mod"
+<powerOf> ::= "^"
+
+<booleanOperators> ::= <or> | <xor> | <and>
+<or> ::= "Or"
+<xor> ::= "Xor"
+<and> ::= "And"
+
+<comparatorOperators> ::= <isEqual> | <lessOrEqual> | <less> | <greaterOrEqual> | <greater> | <different>
+<isEqual> ::= "="
+<less> ::= "<"
+<lessOrEqual> ::= "<="
+<greater> ::= ">"
+<greaterOrEqual> ::= ">="
+<different> ::= "<>"
+
+<bitwiseOperators> ::= <shiftArithmeticRight> | <shiftLeft> | <shiftRight>
+<shiftArithmeticRight> ::= "Sar"
+<shiftLeft> ::= "Shl"
+<shiftRight> ::= "Shr"
+
+<inversionOperator> ::= <bitwiseReverse> | <not>
+<bitwiseReverse> ::= "~"
+<not> ::= "Not"
+
+<castOperator> ::= <intCast> | <floatCast> | <stringCast>
+<intCast> ::= "Int"
+<floatCast> ::= "Float"
+<stringCast> ::= "Str"
+
+<positionCallOperation> ::= (<after> | <before>) <space>* "(" <space>* <identifier> <space>* ")"
+<after> ::= "After"
+<before> ::= "Before"
+
+<insertStatement> ::= <insert> <space>+ <identifier> <space>+ ( <after> | <before> ) <space>+ <identifier>
+<insert> ::= "Insert"
+
+<deleteStatement> ::= <delete> <space>+ <each> <space>+ <identifier>
+<delete> ::= "Delete"
+
+<structAssignationOperation> ::= ( <first> | <last> | <new> ) <identifier>
+<first> ::= "First"
+<last> ::= "Last"
+<new> ::= "New"
+
+<end> ::= "End"
+
+<comment> ::= ";"
+<space> ::= " " | "\t"
